@@ -1,0 +1,56 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load the historical price data
+expanded_data = {
+    'Year': [2015, 2016, 2017, 2018, 2019, 2020, 2021],
+    'Corn_Price_USD': [180, 190, 210, 200, 220, 250, 270],
+    'Wheat_Price_USD': [280, 290, 310, 300, 280, 320, 330],
+    'Soybean_Price_USD': [380, 370, 390, 400, 380, 420, 430]
+}
+
+# Creating a DataFrame from the expanded dictionary
+expanded_df = pd.DataFrame(expanded_data)
+
+# Output the expanded dataset
+print(expanded_df)
+
+# Display basic information about the dataset
+print("Dataset Information:")
+print(expanded_df.info())
+
+# Display summary statistics of numerical variables
+print("\nSummary Statistics:")
+print(expanded_df.describe())
+
+# Check for missing values
+print("\nMissing Values:")
+print(expanded_df.isnull().sum())
+
+# Visualize the distribution of raw material prices
+plt.figure(figsize=(10, 6))
+for column in expanded_df.columns[1:]:
+    sns.histplot(expanded_df[column], bins=10, kde=True, alpha=0.5, label=column)
+plt.title('Distribution of Raw Material Prices')
+plt.xlabel('Price (USD)')
+plt.ylabel('Frequency')
+plt.legend()
+plt.show()
+
+# Visualize the trend of raw material prices over time
+plt.figure(figsize=(10, 6))
+for column in expanded_df.columns[1:]:
+    sns.lineplot(x='Year', y=column, data=expanded_df, marker='o', label=column)
+plt.title('Trend of Raw Material Prices Over Time')
+plt.xlabel('Year')
+plt.ylabel('Price (USD)')
+plt.legend()
+plt.show()
+
+# Display the correlation matrix
+plt.figure(figsize=(8, 6))
+sns.heatmap(expanded_df.corr(), annot=True, cmap='coolwarm', fmt='.2f')
+plt.title('Correlation Matrix of Raw Material Prices')
+plt.show()
+
